@@ -4,6 +4,7 @@ import s from "./Todolist.module.css"
 
 type TodolistPropsType = {
     tasks: tasksType[]
+    deleteTask: (id: number) => void
 }
 export const Todolist = (props: TodolistPropsType) => {
     return <div className={s.Todolist}>
@@ -13,10 +14,16 @@ export const Todolist = (props: TodolistPropsType) => {
             <button>+</button>
         </div>
         <ul>
-            {props.tasks.map(t => <li key={t.id}>
+            {props.tasks.map(t => {
+                const onClickButtonHandler = () => {
+                    props.deleteTask(t.id)
+                }
+
+                return <li key={t.id}>
                 <input type={'checkbox'} checked={t.isDone}/>
                 <span>{t.title}</span>
-            </li>)}
+                <button onClick={onClickButtonHandler}>X</button>
+            </li>})}
         </ul>
         <div>
             <button>All</button>
