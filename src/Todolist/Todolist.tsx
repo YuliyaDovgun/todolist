@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {filterType, tasksType} from "../App";
 import s from "./Todolist.module.css"
 
@@ -17,20 +17,25 @@ export const Todolist = (props: TodolistPropsType) => {
         props.addTask(taskTitle)
         setTaskTitle('')
     }
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTaskTitle(e.currentTarget.value)
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setTaskTitle(e.currentTarget.value)
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if(e.code === "Enter") onClickHandler()
     }
+
+    const onClickAll = () => props.filterTasks('All')
+    const onClickCompleted = () => props.filterTasks('Completed')
+    const onClickInProgress = () => props.filterTasks('InProgress')
+
     return <div className={s.Todolist}>
         <h3>{props.title}</h3>
         <div>
-            <input value={taskTitle} onChange={onChangeHandler}/>
+            <input value={taskTitle} onChange={onChangeHandler} onKeyPress={onKeyPressHandler}/>
             <button onClick={onClickHandler}>+</button>
         </div>
         <ul>
             {props.tasks.map(t => {
-                const onClickButtonHandler = () => {
-                    props.deleteTask(t.id)
-                }
+
+                const onClickButtonHandler = () => props.deleteTask(t.id)
 
                 return <li key={t.id}>
                 <input type={'checkbox'} checked={t.isDone}/>
@@ -39,9 +44,9 @@ export const Todolist = (props: TodolistPropsType) => {
             </li>})}
         </ul>
         <div>
-            <button onClick={() => props.filterTasks('All')}>All</button>
-            <button onClick={() => props.filterTasks('Completed')}>Completed</button>
-            <button onClick={() => props.filterTasks('InProgress')}>InProgress</button>
+            <button onClick={onClickAll}>All</button>
+            <button onClick={onClickCompleted}>Completed</button>
+            <button onClick={onClickInProgress}>InProgress</button>
         </div>
 
     </div>
