@@ -1,19 +1,30 @@
-import React from "react";
+import React, {ChangeEvent, useState} from "react";
 import {filterType, tasksType} from "../App";
 import s from "./Todolist.module.css"
 
 type TodolistPropsType = {
     title: string
     tasks: tasksType[]
-    deleteTask: (id: number) => void
+    deleteTask: (id: string) => void
     filterTasks: (filter: filterType) => void
+    addTask: (title: string) => void
 }
 export const Todolist = (props: TodolistPropsType) => {
+
+    const [taskTitle, setTaskTitle] = useState('')
+
+    const onClickHandler = () => {
+        props.addTask(taskTitle)
+        setTaskTitle('')
+    }
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTaskTitle(e.currentTarget.value)
+    }
     return <div className={s.Todolist}>
         <h3>{props.title}</h3>
         <div>
-            <input/>
-            <button>+</button>
+            <input value={taskTitle} onChange={onChangeHandler}/>
+            <button onClick={onClickHandler}>+</button>
         </div>
         <ul>
             {props.tasks.map(t => {
