@@ -2,3 +2,15 @@
     display: inline-block;
     margin: 10px;
 }
+.error {
+    color: red;
+}
+.input {
+    border: 1px solid red;
+}
+.active {
+    background-color: aquamarine;
+}
+.isDone {
+    opacity: 0.5;
+}

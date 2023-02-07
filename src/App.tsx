@@ -16,7 +16,8 @@ function App() {
         {id: v1(), title: 'Beer', isDone: true},
         {id: v1(), title: 'Fish', isDone: true},
     ])
-    let [filter, setFilter] = useState('All')
+    let [filter, setFilter] = useState<filterType>('All')
+
     let filteredTasks: tasksType[] = tasks
     if(filter === 'Completed'){
         filteredTasks = tasks.filter(t => t.isDone)
@@ -33,6 +34,9 @@ function App() {
     const addTask = (title: string) => {
         setTasks([{id: v1(), title, isDone: false}, ...tasks])
     }
+    const changeStatus = (id: string, isDone: boolean) => {
+        setTasks(tasks.map(t => t.id === id ? {...t, isDone}: t))
+    }
     return (
         <div className="App">
             <Todolist
@@ -41,6 +45,8 @@ function App() {
                 deleteTask={deleteTask}
                 filterTasks={filterTasks}
                 addTask={addTask}
+                changeStatus={changeStatus}
+                filter={filter}
             />
         </div>
     );
