@@ -3,12 +3,13 @@ import {filterType, tasksType} from "../App";
 import s from "./Todolist.module.css"
 
 type TodolistPropsType = {
+    id: string
     title: string
     tasks: tasksType[]
-    deleteTask: (id: string) => void
-    filterTasks: (filter: filterType) => void
-    addTask: (title: string) => void
-    changeStatus: (id: string, isDone: boolean) => void
+    deleteTask: (id: string,todolistId: string) => void
+    filterTasks: (filter: filterType, todolistId: string) => void
+    addTask: (title: string, todolistId: string) => void
+    changeStatus: (id: string, isDone: boolean, todolistId: string) => void
     filter: filterType
 }
 export const Todolist = (props: TodolistPropsType) => {
@@ -18,7 +19,7 @@ export const Todolist = (props: TodolistPropsType) => {
 
     const onClickHandler = () => {
         if(taskTitle.trim() !== "") {
-            props.addTask(taskTitle)
+            props.addTask(taskTitle, props.id)
             setTaskTitle('')
         }
         else {
@@ -36,9 +37,9 @@ export const Todolist = (props: TodolistPropsType) => {
         }
     }
 
-    const onClickAll = () => props.filterTasks('All')
-    const onClickCompleted = () => props.filterTasks('Completed')
-    const onClickInProgress = () => props.filterTasks('InProgress')
+    const onClickAll = () => props.filterTasks('All', props.id)
+    const onClickCompleted = () => props.filterTasks('Completed', props.id)
+    const onClickInProgress = () => props.filterTasks('InProgress', props.id)
 
     return <div className={s.Todolist}>
         <h3>{props.title}</h3>
@@ -50,8 +51,8 @@ export const Todolist = (props: TodolistPropsType) => {
         <ul>
             {props.tasks.map(t => {
 
-                const onClickButtonHandler = () => props.deleteTask(t.id)
-                const onClickInputHandler = () => props.changeStatus(t.id, !t.isDone)
+                const onClickButtonHandler = () => props.deleteTask(t.id, props.id)
+                const onClickInputHandler = () => props.changeStatus(t.id, !t.isDone, props.id)
 
                 return <li key={t.id}>
                 <input type={'checkbox'} checked={t.isDone} onClick={onClickInputHandler}/>
