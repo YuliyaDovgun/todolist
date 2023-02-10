@@ -44,10 +44,7 @@ export const Todolist = (props: TodolistPropsType) => {
         props.removeTodolist(props.id)
     }
     return <div className={s.Todolist}>
-        <div>
-            <span>{props.title}</span>
-            <button onClick={onClickButtonHandler}>X</button>
-        </div>
+            <h3>{props.title}<button onClick={onClickButtonHandler}>X</button></h3>
         <div>
             <input className={error ? s.input : ""} value={taskTitle} onChange={onChangeHandler}
                    onKeyPress={onKeyPressHandler}/>
