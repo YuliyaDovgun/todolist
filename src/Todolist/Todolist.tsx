@@ -3,6 +3,9 @@ import {filterType, taskType} from "../App";
 import s from "./Todolist.module.css"
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
+import {Button, IconButton } from "@mui/material";
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+
 
 type TodolistPropsType = {
     id: string
@@ -40,7 +43,9 @@ export const Todolist = (props: TodolistPropsType) => {
     return <div className={s.Todolist}>
         <h3>
             <EditableSpan title={todoListTitle} setNewTitle={setNewTodolistTitle}/>
-            <button onClick={onClickButtonHandler}>X</button>
+            <IconButton color={'secondary'} onClick={onClickButtonHandler}>
+                <DeleteTwoToneIcon/>
+            </IconButton>
         </h3>
         <AddItemForm addItem={addTask}/>
         <ul>
@@ -55,16 +60,16 @@ export const Todolist = (props: TodolistPropsType) => {
                 return <li key={t.id}>
                     <input type={'checkbox'} checked={t.isDone} onClick={onClickInputHandler}/>
                     <EditableSpan className={classNameIsDone} title={t.title} setNewTitle={setNewTaskTitle}/>
-                    <button onClick={onClickButtonHandler}>X</button>
+                    <IconButton color={'secondary'} onClick={onClickButtonHandler}>
+                        <DeleteTwoToneIcon/>
+                    </IconButton>
                 </li>
             })}
         </ul>
         <div>
-            <button className={props.filter === 'All' ? s.active : ""} onClick={onClickAll}>All</button>
-            <button className={props.filter === 'Completed' ? s.active : ""} onClick={onClickCompleted}>Completed
-            </button>
-            <button className={props.filter === 'InProgress' ? s.active : ""} onClick={onClickInProgress}>InProgress
-            </button>
+            <Button variant={props.filter === 'All' ? "contained" : "text"} color={'secondary'} onClick={onClickAll}>All</Button>
+            <Button variant={props.filter === 'Completed' ? "contained" : "text"} color={'success'} onClick={onClickCompleted}>Completed</Button>
+            <Button variant={props.filter === 'InProgress' ? "contained" : "text"} onClick={onClickInProgress}>InProgress</Button>
         </div>
 
     </div>

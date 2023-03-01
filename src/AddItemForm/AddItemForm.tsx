@@ -1,5 +1,6 @@
+import {AddTask} from "@mui/icons-material";
+import {IconButton, TextField} from "@mui/material";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import s from "../Todolist/Todolist.module.css";
 
 type AddItemFormPropsType = {
     addItem: (itemTitle: string) => void
@@ -17,19 +18,31 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
             setError('Title is required!')
         }
     }
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setTaskTitle(e.currentTarget.value.trim())
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setError(null)
+        setTaskTitle(e.currentTarget.value.trim())
+    }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null)
-        if (e.code === "Enter" && e.currentTarget.value.trim() !== "") {
+        if (e.code === "Enter") {
             onClickHandler()
         } else {
             setError('Title is required!')
         }
     }
-
     return <div>
-        <input className={error ? s.input : ""} value={taskTitle} onChange={onChangeHandler} onKeyPress={onKeyPressHandler}/>
-        <button onClick={onClickHandler}>+</button>
-        {error && <div className={error ? s.error : ""}>{error}</div>}
+        <TextField
+            label="Title"
+            size="small"
+            color={"secondary"}
+            error={!!error}
+            helperText={error}
+            value={taskTitle}
+            onChange={onChangeHandler}
+            onKeyPress={onKeyPressHandler}
+        />
+        <IconButton color={'secondary'} onClick={onClickHandler}>
+            <AddTask/>
+        </IconButton>
     </div>
 }
