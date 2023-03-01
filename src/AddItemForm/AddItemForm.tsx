@@ -30,7 +30,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
             setError('Title is required!')
         }
     }
-    return <div>
+    return <div style={{padding: "10px"}}>
         <TextField
             label="Title"
             size="small"

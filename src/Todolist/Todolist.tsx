@@ -3,7 +3,7 @@ import {filterType, taskType} from "../App";
 import s from "./Todolist.module.css"
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {Button, IconButton } from "@mui/material";
+import {Button, Checkbox, IconButton } from "@mui/material";
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 
 
@@ -48,7 +48,7 @@ export const Todolist = (props: TodolistPropsType) => {
             </IconButton>
         </h3>
         <AddItemForm addItem={addTask}/>
-        <ul>
+        <div>
             {props.tasks.map(t => {
 
                 const classNameIsDone = t.isDone ? s.isDone : ""
@@ -57,15 +57,15 @@ export const Todolist = (props: TodolistPropsType) => {
                 const onClickInputHandler = () => props.changeStatus(t.id, !t.isDone, props.id)
                 const setNewTaskTitle = (newTitle: string) => props.changeTitle(t.id, newTitle, props.id)
 
-                return <li key={t.id}>
-                    <input type={'checkbox'} checked={t.isDone} onClick={onClickInputHandler}/>
+                return <div key={t.id}>
+                    <Checkbox checked={t.isDone} onClick={onClickInputHandler} color="secondary" />
                     <EditableSpan className={classNameIsDone} title={t.title} setNewTitle={setNewTaskTitle}/>
                     <IconButton color={'secondary'} onClick={onClickButtonHandler}>
                         <DeleteTwoToneIcon/>
                     </IconButton>
-                </li>
+                </div>
             })}
-        </ul>
+        </div>
         <div>
             <Button variant={props.filter === 'All' ? "contained" : "text"} color={'secondary'} onClick={onClickAll}>All</Button>
             <Button variant={props.filter === 'Completed' ? "contained" : "text"} color={'success'} onClick={onClickCompleted}>Completed</Button>

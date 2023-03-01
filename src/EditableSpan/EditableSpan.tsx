@@ -1,3 +1,4 @@
+import {Input} from "@mui/material";
 import React, {ChangeEvent, useState} from "react";
 
 type EditableSpanPropsType = {
@@ -14,6 +15,10 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
         props.setNewTitle(e.currentTarget.value)
     }
     return editMode
-        ? <input value={props.title} onChange={onChangeTitle} onBlur={openViewMode}/>
+        ? <Input
+            value={props.title}
+            size="small"
+            onChange={onChangeTitle}
+            onBlur={openViewMode}/>
         : <span className={props.className} onDoubleClick={openEditMode}>{props.title}</span>
 }
