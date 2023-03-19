@@ -1,5 +1,6 @@
 import {tasksType} from "../App";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
+import {addTodoListAC, removeTodolistAC} from "./todoList-reducer";
 
 let tasks: tasksType
 beforeEach(() => {
@@ -36,11 +37,11 @@ test('task should be added',() => {
 })
 test('task status should be changed',() => {
 
-    const newTodoLists = tasksReducer(tasks, changeTaskStatusAC('2', false, 'todolistId2'))
+    const newTasks = tasksReducer(tasks, changeTaskStatusAC('2', false, 'todolistId2'))
 
     expect(tasks['todolistId2'].length).toBe(2)
-    expect(newTodoLists['todolistId1'][1].isDone).toBe(true)
-    expect(newTodoLists['todolistId2'][1].isDone).toBe(false)
+    expect(newTasks['todolistId1'][1].isDone).toBe(true)
+    expect(newTasks['todolistId2'][1].isDone).toBe(false)
 })
 test('task title should be changed',() => {
 
@@ -49,4 +50,26 @@ test('task title should be changed',() => {
     expect(tasks['todolistId2'].length).toBe(2)
     expect(tasks['todolistId2'][1].title).toBe('English')
     expect(newTodoLists['todolistId2'][1].title).toBe('changedTitle')
+})
+test('empty task array should be added when todoList added',() => {
+
+    const newTasks = tasksReducer(tasks, addTodoListAC('new todolist'))
+
+    const keys = Object.keys(newTasks)
+    const newKey = keys.find(k => k !== 'todolistId1' && k !== 'todolistId2')
+    if (!newKey) {
+        throw Error('new key should be added')
+    }
+
+    expect(keys.length).toBe(3)
+    expect(newTasks[newKey]).toEqual([])
+})
+test('task array should be removed when todoList removed',() => {
+
+    const newTasks = tasksReducer(tasks, removeTodolistAC('todolistId1'))
+
+    const keys = Object.keys(newTasks)
+
+    expect(keys.length).toBe(1)
+    expect(newTasks['todolistId1']).toBeUndefined()
 })
