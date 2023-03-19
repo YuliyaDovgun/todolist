@@ -50,7 +50,7 @@ function App() {
                         <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                        Work
+                        TodoLists
                     </Typography>
                     {auth && (
                         <div>
