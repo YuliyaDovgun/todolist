@@ -1,9 +1,9 @@
 import React, {ChangeEvent, MouseEvent, useState} from 'react';
 import './App.css';
-import {AppBar, Container, Grid, IconButton, Menu, MenuItem, Toolbar, Typography} from '@mui/material';
+import {AppBar, Container, IconButton, Menu, MenuItem, Toolbar, Typography} from '@mui/material';
 import {AccountCircle} from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
-import {TodoLists} from "./TodoLists/TodoLists";
+import {TodoListsWithReducer} from "./TodoLists/TodoListsWithReducer";
 
 export type TodolistType = {
     id: string
@@ -86,7 +86,7 @@ function App() {
                     )}
                 </Toolbar>
             </AppBar>
-            <TodoLists/>
+            <TodoListsWithReducer/>
         </Container>
     );
 }
