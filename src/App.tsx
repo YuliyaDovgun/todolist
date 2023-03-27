@@ -3,7 +3,9 @@ import './App.css';
 import {AppBar, Container, IconButton, Menu, MenuItem, Toolbar, Typography} from '@mui/material';
 import {AccountCircle} from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
-import {TodoListsWithReducer} from "./TodoLists/TodoListsWithReducer";
+import {TodoListsWithRedux} from "./TodoLists/TodoListsWithRedux";
+import {Provider} from "react-redux";
+import {store} from "./state/store";
 
 export type TodolistType = {
     id: string
@@ -86,7 +88,7 @@ function App() {
                     )}
                 </Toolbar>
             </AppBar>
-            <TodoListsWithReducer/>
+            <Provider store={store}><TodoListsWithRedux/></Provider>
         </Container>
     );
 }
