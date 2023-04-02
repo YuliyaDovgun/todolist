@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../state/store";
 
 export function TodoListsWithRedux() {
+    console.log('TodoLists')
     const dispatch = useDispatch()
     const todoLists = useSelector<AppStoreType, TodolistType[]>( state => state.todoLists)
 

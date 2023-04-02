@@ -6,7 +6,7 @@ type AddItemFormPropsType = {
     addItem: (itemTitle: string) => void
 }
 export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
-
+    console.log('AddItemForm')
     const [taskTitle, setTaskTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
 

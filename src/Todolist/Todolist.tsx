@@ -3,11 +3,12 @@ import {filterType, tasksType, taskType} from "../App";
 import s from "./Todolist.module.css"
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {Button, Checkbox, IconButton } from "@mui/material";
+import {Button, IconButton} from "@mui/material";
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../state/store";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasks-reducer";
+import {addTaskAC} from "../state/tasks-reducer";
+import {Task} from "./Task";
 
 
 type TodolistPropsType = {
@@ -19,9 +20,9 @@ type TodolistPropsType = {
     changeTodolistTitle: (todolistId: string, newTitle: string) => void
 }
 export const Todolist = (props: TodolistPropsType) => {
-
-    const dispatch = useDispatch()
+    console.log('Todolist')
     const tasks = useSelector<AppStoreType, tasksType>( state => state.tasks)
+    const dispatch = useDispatch()
 
     const [todoListTitle, setTodolistTitle] = useState<string>(props.title)
 
@@ -58,28 +59,7 @@ export const Todolist = (props: TodolistPropsType) => {
         </h3>
         <AddItemForm addItem={addTask}/>
         <div>
-            {filteredTasks.map(t => {
-
-                const classNameIsDone = t.isDone ? s.isDone : ""
-
-                const onClickButtonHandler = () => {
-                    dispatch(removeTaskAC(t.id, props.id))
-                }
-                const onClickInputHandler = () => {
-                    dispatch(changeTaskStatusAC(t.id, !t.isDone, props.id))
-                }
-                const setNewTaskTitle = (newTitle: string) => {
-                    dispatch(changeTaskTitleAC(t.id, newTitle, props.id))
-                }
-
-                return <div key={t.id}>
-                    <Checkbox checked={t.isDone} onClick={onClickInputHandler} color="secondary" />
-                    <EditableSpan className={classNameIsDone} title={t.title} setNewTitle={setNewTaskTitle}/>
-                    <IconButton color={'secondary'} onClick={onClickButtonHandler}>
-                        <DeleteTwoToneIcon/>
-                    </IconButton>
-                </div>
-            })}
+            {filteredTasks.map(t => <Task key = {t.id} task={t} todoListId={props.id}/>)}
         </div>
         <div>
             <Button variant={props.filter === 'All' ? "contained" : "text"} color={'secondary'} onClick={onClickAll}>All</Button>
