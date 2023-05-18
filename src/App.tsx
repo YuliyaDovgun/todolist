@@ -23,7 +23,6 @@ export type tasksType = {
 }
 
 function App() {
-    console.log('App')
     const [auth, setAuth] = useState(true);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Todolist} from "../Todolist/Todolist";
 import {filterType, TodolistType} from "../App";
@@ -23,9 +23,9 @@ export function TodoListsWithRedux() {
     const removeTodolist = (todolistId: string) => {
         dispatch(removeTodolistAC(todolistId))
     }
-    const addTodolist = (todolistTitle: string) => {
+    const addTodolist = useCallback((todolistTitle: string) => {
         dispatch(addTodoListAC(todolistTitle))
-    }
+    }, [])
     const changeTodolistTitle = (todoListId: string, newTitle: string) => {
         dispatch(changeTitleTodoListAC(todoListId, newTitle))
     }

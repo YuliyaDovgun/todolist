@@ -1,12 +1,11 @@
 import {AddTask} from "@mui/icons-material";
 import {IconButton, TextField} from "@mui/material";
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from "react";
 
 type AddItemFormPropsType = {
     addItem: (itemTitle: string) => void
 }
-export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
-    console.log('AddItemForm')
+export const AddItemForm: React.FC<AddItemFormPropsType> = memo(({addItem}) => {
     const [taskTitle, setTaskTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
 
@@ -19,15 +18,13 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
         }
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setError(null)
+        if(error) setError(null)
         setTaskTitle(e.currentTarget.value.trim())
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
+        if(error) setError(null)
         if (e.code === "Enter") {
             onClickHandler()
-        } else {
-            setError('Title is required!')
         }
     }
     return <div style={{padding: "10px"}}>
@@ -45,4 +42,4 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
             <AddTask/>
         </IconButton>
     </div>
-}
+})

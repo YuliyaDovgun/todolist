@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import {filterType, tasksType, taskType} from "../App";
 import s from "./Todolist.module.css"
 import {AddItemForm} from "../AddItemForm/AddItemForm";
@@ -20,7 +20,7 @@ type TodolistPropsType = {
     changeTodolistTitle: (todolistId: string, newTitle: string) => void
 }
 export const Todolist = (props: TodolistPropsType) => {
-    console.log('Todolist')
+    //console.log('Todolist')
     const tasks = useSelector<AppStoreType, tasksType>( state => state.tasks)
     const dispatch = useDispatch()
 
@@ -42,9 +42,9 @@ export const Todolist = (props: TodolistPropsType) => {
         props.removeTodolist(props.id)
     }
 
-    const addTask = (titleTask: string) => {
+    const addTask = useCallback((titleTask: string) => {
         dispatch(addTaskAC(titleTask, props.id))
-    }
+    }, [props.id])
     const setNewTodolistTitle = (newTitle: string) => {
         props.changeTodolistTitle(props.id, newTitle)
         setTodolistTitle(newTitle)

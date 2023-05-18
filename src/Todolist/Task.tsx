@@ -12,7 +12,7 @@ type TaskPropsType = {
     todoListId: string
 }
 export const Task: React.FC<TaskPropsType> = ({task, todoListId}) => {
-    console.log('Task')
+   // console.log('Task')
     const classNameIsDone = task.isDone ? s.isDone : ""
     const dispatch = useDispatch()
 
