@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {memo, useCallback} from "react";
 import s from "./Todolist.module.css";
 import {useDispatch} from "react-redux";
 import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasks-reducer";
@@ -11,8 +11,7 @@ type TaskPropsType = {
     task: taskType
     todoListId: string
 }
-export const Task: React.FC<TaskPropsType> = ({task, todoListId}) => {
-   // console.log('Task')
+export const Task: React.FC<TaskPropsType> = memo(({task, todoListId}) => {
     const classNameIsDone = task.isDone ? s.isDone : ""
     const dispatch = useDispatch()
 
@@ -34,4 +33,4 @@ export const Task: React.FC<TaskPropsType> = ({task, todoListId}) => {
             <DeleteTwoToneIcon/>
         </IconButton>
     </div>
-}
+})
