@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Todolist} from "../Todolist/Todolist";
-import {filterType, TodolistType} from "../App";
+import {filterType, tasksType, TodolistType} from "../App";
 import {Grid, Paper} from "@mui/material";
 import {
     addTodoListAC,
@@ -13,37 +13,39 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../state/store";
 
 export function TodoListsWithRedux() {
-    console.log('TodoLists')
     const dispatch = useDispatch()
     const todoLists = useSelector<AppStoreType, TodolistType[]>( state => state.todoLists)
+    const tasks = useSelector<AppStoreType, tasksType>( state => state.tasks)
 
-    const changeFilterTodolist = (filter: filterType, todolistId: string) => {
+    const changeFilterTodolist = useCallback((filter: filterType, todolistId: string) => {
         dispatch(changeStatusTodoListAC(todolistId, filter))
-    }
-    const removeTodolist = (todolistId: string) => {
+    }, [dispatch])
+    const removeTodolist = useCallback((todolistId: string) => {
         dispatch(removeTodolistAC(todolistId))
-    }
+    }, [dispatch])
     const addTodolist = useCallback((todolistTitle: string) => {
         dispatch(addTodoListAC(todolistTitle))
-    }, [])
-    const changeTodolistTitle = (todoListId: string, newTitle: string) => {
+    }, [dispatch])
+    const changeTodolistTitle = useCallback((todoListId: string, newTitle: string) => {
         dispatch(changeTitleTodoListAC(todoListId, newTitle))
-    }
+    }, [dispatch])
+
     return <Grid container>
         <Grid container>
             <AddItemForm addItem={addTodolist}/>
         </Grid>
         {todoLists.map(tl => {
-
             return <Grid item style={{margin: "20px"}}  key={tl.id}>
                 <Paper elevation={6} style={{padding: "10px"}}>
                     <Todolist
+                        key={tl.id}
                         id={tl.id}
                         title={tl.title}
                         filterTasks={changeFilterTodolist}
                         filter={tl.filter}
                         removeTodolist={removeTodolist}
                         changeTodolistTitle={changeTodolistTitle}
+                        tasks={tasks[tl.id]}
                     />
                 </Paper>
             </Grid>
