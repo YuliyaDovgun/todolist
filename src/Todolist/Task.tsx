@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import s from "./Todolist.module.css";
 import {useDispatch} from "react-redux";
 import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasks-reducer";
@@ -23,9 +23,9 @@ export const Task: React.FC<TaskPropsType> = ({task, todoListId}) => {
     const onClickInputHandler = () => {
         dispatch(changeTaskStatusAC(task.id, !task.isDone, todoListId))
     }
-    const setNewTaskTitle = (newTitle: string) => {
+    const setNewTaskTitle = useCallback((newTitle: string) => {
         dispatch(changeTaskTitleAC(task.id, newTitle, todoListId))
-    }
+    }, [])
 
     return <div key={task.id}>
         <Checkbox checked={task.isDone} onClick={onClickInputHandler} color="secondary"/>

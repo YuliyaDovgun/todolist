@@ -35,9 +35,9 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     const addTask = useCallback((titleTask: string) => {
         dispatch(addTaskAC(titleTask, props.id))
     }, [props.id])
-    const setNewTodolistTitle = (newTitle: string) => {
+    const setNewTodolistTitle = useCallback((newTitle: string) => {
         dispatch(changeTitleTodoListAC(props.id, newTitle))
-    }
+    }, [props.id])
 
     return <div className={s.Todolist}>
         <h3>
