@@ -2,7 +2,7 @@ import {instance} from "./instance";
 
 export const todolistAPI = {
     getTodolists: () => {
-        return instance.get<todolistRT[]>('todo-lists') //delete types
+        return instance.get<todolistRT[]>('todo-lists')
     },
     createTodolist: (title: string) => {
         return instance.post<todolistsRT<{item: todolistRT}>>('todo-lists', {title})

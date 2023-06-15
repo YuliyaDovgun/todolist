@@ -5,14 +5,14 @@ import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/task
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
-import {taskType} from "../App";
+import {taskRT, TaskStatuses} from "../api/task-api";
 
 type TaskPropsType = {
-    task: taskType
+    task: taskRT
     todoListId: string
 }
 export const Task: React.FC<TaskPropsType> = memo(({task, todoListId}) => {
-    const classNameIsDone = task.isDone ? s.isDone : ""
+    const classNameIsDone = task.status ? s.isDone : ""
     const dispatch = useDispatch()
 
 
@@ -20,14 +20,14 @@ export const Task: React.FC<TaskPropsType> = memo(({task, todoListId}) => {
         dispatch(removeTaskAC(task.id, todoListId))
     }
     const onClickInputHandler = () => {
-        dispatch(changeTaskStatusAC(task.id, !task.isDone, todoListId))
+        dispatch(changeTaskStatusAC(task.id, task.status === TaskStatuses.New ? TaskStatuses.InProgress : TaskStatuses.New, todoListId))
     }
     const setNewTaskTitle = useCallback((newTitle: string) => {
         dispatch(changeTaskTitleAC(task.id, newTitle, todoListId))
     }, [])
 
     return <div key={task.id}>
-        <Checkbox checked={task.isDone} onClick={onClickInputHandler} color="secondary"/>
+        <Checkbox checked={task.status !== TaskStatuses.New} onClick={onClickInputHandler} color="secondary"/>
         <EditableSpan className={classNameIsDone} title={task.title} setNewTitle={setNewTaskTitle}/>
         <IconButton color={'secondary'} onClick={onClickButtonHandler}>
             <DeleteTwoToneIcon/>

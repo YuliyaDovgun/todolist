@@ -6,15 +6,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {TodoListsWithRedux} from "./TodoLists/TodoListsWithRedux";
 import {Provider} from "react-redux";
 import {store} from "./state/store";
+import {taskRT} from "./api/task-api";
 
-export type taskType = {
+/*export type taskType = {
     id: string
     title: string
     isDone: boolean
-}
+}*/
 export type filterType = 'All' | 'Completed' | 'InProgress'
 export type tasksType = {
-    [key: string]: taskType[]
+    [key: string]: taskRT[]
 }
 
 function App() {

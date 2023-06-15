@@ -1,13 +1,19 @@
 import {tasksType} from "../App";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
+import {
+    addTaskAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC,
+    setTasksAC,
+    tasksReducer
+} from "./tasks-reducer";
 import {
     addTodoListAC,
     removeTodolistAC,
     setTodoListsAC,
     todolistDomainType,
-    todolistId1,
-    todolistId2
 } from "./todoList-reducer";
+import {TaskStatuses} from "../api/task-api";
 
 let tasks: tasksType
 let todoLists: Array<todolistDomainType>
@@ -15,13 +21,23 @@ let todoLists: Array<todolistDomainType>
 beforeEach(() => {
     tasks =  {
         'todolistId1': [
-            {id: '1', title: 'Milk', isDone: false},
-            {id: '2', title: 'Beer', isDone: true},
-            {id: '3', title: 'Fish', isDone: true},
+            {id: '1', title: 'Milk', status: TaskStatuses.InProgress,  description: '',
+                completed: false, priority: 0, startDate: '', deadline: '',
+                todoListId: 'todolistId1', order: 0, addedDate: '',},
+            {id: '2', title: 'Beer', status: TaskStatuses.InProgress,  description: '',
+                completed: false, priority: 0, startDate: '', deadline: '',
+                todoListId: 'todolistId1', order: 0, addedDate: '',},
+            {id: '3', title: 'Fish', status: TaskStatuses.InProgress,  description: '',
+                completed: false, priority: 0, startDate: '', deadline: '',
+                todoListId: 'todolistId1', order: 0, addedDate: '',},
         ],
         'todolistId2': [
-            {id: '1', title: 'JS', isDone: false},
-            {id: '2', title: 'English', isDone: true},
+            {id: '1', title: 'JS', status: TaskStatuses.InProgress,  description: '',
+                completed: false, priority: 0, startDate: '', deadline: '',
+                todoListId: 'todolistId2', order: 0, addedDate: '',},
+            {id: '2', title: 'English', status: TaskStatuses.InProgress,  description: '',
+                completed: false, priority: 0, startDate: '', deadline: '',
+                todoListId: 'todolistId2', order: 0, addedDate: '',},
         ],
     }
     todoLists = [
@@ -46,15 +62,15 @@ test('task should be added',() => {
     expect(newTodoLists['todolistId1'].length).toBe(4)
     expect(newTodoLists['todolistId1'][0].id).toBeDefined()
     expect(newTodoLists['todolistId1'][0].title).toBe('newTask')
-    expect(newTodoLists['todolistId1'][0].isDone).toBe(false)
+    expect(newTodoLists['todolistId1'][0].status).toBe(0)
 })
 test('task status should be changed',() => {
 
-    const newTasks = tasksReducer(tasks, changeTaskStatusAC('2', false, 'todolistId2'))
+    const newTasks = tasksReducer(tasks, changeTaskStatusAC('2', TaskStatuses.Completed, 'todolistId2'))
 
     expect(tasks['todolistId2'].length).toBe(2)
-    expect(newTasks['todolistId1'][1].isDone).toBe(true)
-    expect(newTasks['todolistId2'][1].isDone).toBe(false)
+    expect(newTasks['todolistId1'][1].status).toBe(TaskStatuses.InProgress)
+    expect(newTasks['todolistId2'][1].status).toBe(TaskStatuses.Completed)
 })
 test('task title should be changed',() => {
 
@@ -86,7 +102,7 @@ test('task array should be removed when todoList removed',() => {
     expect(keys.length).toBe(1)
     expect(newTasks['todolistId1']).toBeUndefined()
 })
-test('empty array should be added when todoLists settle',() => {
+test('empty array should be added when todoLists set',() => {
 
     const newTasks = tasksReducer(tasks, setTodoListsAC(todoLists))
 
@@ -95,4 +111,19 @@ test('empty array should be added when todoLists settle',() => {
     expect(keys.length).toBe(4)
     expect(newTasks['todolistId3']).toBeDefined()
     expect(newTasks['todolistId4']).toBeDefined()
+})
+test('tasks should be set for each todoLists', () => {
+
+    const task =  {id: '3', title: 'new task', status: TaskStatuses.New,  description: '',
+        completed: false, priority: 0, startDate: '', deadline: '',
+        todoListId: 'todolistId2', order: 0, addedDate: '',}
+
+    const newTasks = tasksReducer(tasks, setTasksAC('todolistId2', [task]))
+
+    const keys = Object.keys(newTasks)
+
+    expect(keys.length).toBe(2)
+    expect(newTasks['todolistId2'].length).toBe(3)
+    expect(newTasks['todolistId2'][0].id).toBe('3')
+    expect(newTasks['todolistId2'][0].title).toBe('new task')
 })

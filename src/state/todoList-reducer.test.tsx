@@ -63,9 +63,9 @@ test('todoList status should be changed',() => {
     expect(newTodoLists.length).toBe(2)
     expect(newTodoLists[0].filter).toBe('Completed')
 })
-test('todoList should be settle',() => {
+test('todoList should be set',() => {
 
-    const newTodoLists = todoListReducer(todolists, setTodoListsAC(todolists))
+    const newTodoLists = todoListReducer([], setTodoListsAC(todolists))
 
-    expect(newTodoLists.length).toBe(4)
+    expect(newTodoLists.length).toBe(2)
 })

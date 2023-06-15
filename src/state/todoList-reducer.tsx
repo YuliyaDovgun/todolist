@@ -42,9 +42,6 @@ export type todoListActionType =
 
 export type todolistDomainType = todolistRT & {filter: filterType}
 
-export const todolistId1 = v1() //remove after refactoring tasks
-export const todolistId2 = v1() //remove after refactoring tasks
-
 const initState: Array<todolistDomainType> = []
 
 export const todoListReducer = (state = initState, action: todoListActionType): Array<todolistDomainType> => {

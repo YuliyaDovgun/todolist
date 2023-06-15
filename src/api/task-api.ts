@@ -25,16 +25,29 @@ type tasksRT<T = {}> = {
     resultCode: number,
     messages: string[],
 }
-type taskRT = {
+export type taskRT = {
     description: string,
     title: string,
     completed: boolean,
     status: number,
     priority: number,
-    startDate: Date,
-    deadline: Date,
+    startDate: Date | string,
+    deadline: Date | string,
     id: string,
     todoListId: string,
     order: number
-    addedDate: Date,
+    addedDate: Date | string,
+}
+export enum TaskStatuses {
+    New,
+    InProgress ,
+    Completed,
+    Draft
+}
+export enum TaskPriorities {
+    Low,
+    Middle,
+    Hi,
+    Urgently,
+    Later
 }
