@@ -1,22 +1,24 @@
 import {v1} from "uuid";
-import {filterType, TodolistType} from "../App";
+import {filterType} from "../App";
 import {
     addTodoListAC,
     changeStatusTodoListAC,
     changeTitleTodoListAC,
     removeTodolistAC,
+    setTodoListsAC,
+    todolistDomainType,
     todoListReducer
 } from "./todoList-reducer";
 
-let todolists: Array<TodolistType>
+let todolists: Array<todolistDomainType>
 
 const todolistId1 = v1()
 const todolistId2 = v1()
 
 beforeEach(() => {
     todolists = [
-        {id: todolistId1, title: 'What to do', filter: 'All',},
-        {id: todolistId2, title: 'What to learn', filter: 'All'},
+        {id: todolistId1, title: 'What to do',  addedDate: '', order: 0, filter: 'All',},
+        {id: todolistId2, title: 'What to learn', addedDate: '', order: 0,filter: 'All'},
     ]
 })
 test('todoList should be removed',() => {
@@ -60,4 +62,10 @@ test('todoList status should be changed',() => {
 
     expect(newTodoLists.length).toBe(2)
     expect(newTodoLists[0].filter).toBe('Completed')
+})
+test('todoList should be settle',() => {
+
+    const newTodoLists = todoListReducer(todolists, setTodoListsAC(todolists))
+
+    expect(newTodoLists.length).toBe(4)
 })

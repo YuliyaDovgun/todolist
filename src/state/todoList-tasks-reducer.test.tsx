@@ -1,10 +1,10 @@
-import {tasksType, TodolistType} from "../App";
+import {tasksType} from "../App";
 import {tasksReducer} from "./tasks-reducer";
-import {addTodoListAC, todoListReducer} from "./todoList-reducer";
+import {addTodoListAC, todolistDomainType, todoListReducer} from "./todoList-reducer";
 
 test('todoList should be removed',() => {
 
-    const todoLists: Array<TodolistType> = []
+    const todoLists: Array<todolistDomainType> = []
     const tasks: tasksType = {}
 
     const action = addTodoListAC('newTodoList')

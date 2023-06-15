@@ -1,8 +1,17 @@
 import {tasksType} from "../App";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
-import {addTodoListAC, removeTodolistAC} from "./todoList-reducer";
+import {
+    addTodoListAC,
+    removeTodolistAC,
+    setTodoListsAC,
+    todolistDomainType,
+    todolistId1,
+    todolistId2
+} from "./todoList-reducer";
 
 let tasks: tasksType
+let todoLists: Array<todolistDomainType>
+
 beforeEach(() => {
     tasks =  {
         'todolistId1': [
@@ -15,6 +24,10 @@ beforeEach(() => {
             {id: '2', title: 'English', isDone: true},
         ],
     }
+    todoLists = [
+        {id: 'todolistId3', title: 'What to do', addedDate: '', order: 0, filter: 'All',},
+        {id: 'todolistId4', title: 'What to learn', addedDate: '', order: 0, filter: 'All'},
+    ]
 })
 test('task should be removed',() => {
 
@@ -72,4 +85,14 @@ test('task array should be removed when todoList removed',() => {
 
     expect(keys.length).toBe(1)
     expect(newTasks['todolistId1']).toBeUndefined()
+})
+test('empty array should be added when todoLists settle',() => {
+
+    const newTasks = tasksReducer(tasks, setTodoListsAC(todoLists))
+
+    const keys = Object.keys(newTasks)
+
+    expect(keys.length).toBe(4)
+    expect(newTasks['todolistId3']).toBeDefined()
+    expect(newTasks['todolistId4']).toBeDefined()
 })

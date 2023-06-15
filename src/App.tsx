@@ -7,11 +7,6 @@ import {TodoListsWithRedux} from "./TodoLists/TodoListsWithRedux";
 import {Provider} from "react-redux";
 import {store} from "./state/store";
 
-export type TodolistType = {
-    id: string
-    title: string
-    filter: filterType
-}
 export type taskType = {
     id: string
     title: string

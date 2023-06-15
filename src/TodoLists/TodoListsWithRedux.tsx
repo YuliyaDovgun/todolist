@@ -1,21 +1,29 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Todolist} from "../Todolist/Todolist";
-import {filterType, tasksType, TodolistType} from "../App";
+import {filterType, tasksType} from "../App";
 import {Grid, Paper} from "@mui/material";
 import {
     addTodoListAC,
     changeStatusTodoListAC,
     changeTitleTodoListAC,
-    removeTodolistAC
+    fetchTodoListsTC,
+    removeTodolistAC,
+    todolistDomainType
 } from "../state/todoList-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../state/store";
 
 export function TodoListsWithRedux() {
+
     const dispatch = useDispatch()
-    const todoLists = useSelector<AppStoreType, TodolistType[]>( state => state.todoLists)
+    const todoLists = useSelector<AppStoreType, todolistDomainType[]>(state => state.todoLists)
     const tasks = useSelector<AppStoreType, tasksType>( state => state.tasks)
+
+    useEffect(() => {
+        // @ts-ignore
+        dispatch(fetchTodoListsTC())
+    }, [])
 
     const changeFilterTodolist = useCallback((filter: filterType, todolistId: string) => {
         dispatch(changeStatusTodoListAC(todolistId, filter))

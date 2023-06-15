@@ -4,7 +4,7 @@ import {
     ADD_TODOLIST,
     addTodolistType,
     REMOVE_TODOLIST,
-    removeTodolistType,
+    removeTodolistType, SET_TODOLISTS, setTodoListsType,
     todolistId1,
     todolistId2
 } from "./todoList-reducer";
@@ -38,7 +38,8 @@ type changeStatusTaskType = {
 }
 
 type actionType = removeTaskType | addTaskType | changeTitleTaskType | changeStatusTaskType
-    | addTodolistType | removeTodolistType
+    | addTodolistType | removeTodolistType | setTodoListsType
+
 const initState: tasksType = {
     [todolistId1]: [
         {id: v1(), title: 'Milk', isDone: false},
@@ -86,6 +87,11 @@ export const tasksReducer = (state: tasksType = initState, action: actionType): 
         case (REMOVE_TODOLIST) : {
             const stateCopy = {...state}
             delete stateCopy[action.id]
+            return stateCopy
+        }
+        case (SET_TODOLISTS) : {
+            const stateCopy = {...state}
+            action.todoLists.forEach(tl => stateCopy[tl.id] = [])
             return stateCopy
         }
         default:
