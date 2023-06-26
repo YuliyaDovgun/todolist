@@ -11,17 +11,17 @@ import {
     removeTodolistAC,
     todolistDomainType
 } from "../state/todoList-reducer";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppStoreType} from "../state/store";
+import {useAppDispatch} from "../hooks/useAppDispatch";
 
 export function TodoListsWithRedux() {
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const todoLists = useSelector<AppStoreType, todolistDomainType[]>(state => state.todoLists)
     const tasks = useSelector<AppStoreType, tasksType>( state => state.tasks)
 
     useEffect(() => {
-        // @ts-ignore
         dispatch(fetchTodoListsTC())
     }, [])
 

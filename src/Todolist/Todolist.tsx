@@ -5,11 +5,11 @@ import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import {useDispatch} from "react-redux";
 import {addTaskAC, fetchTasksTC} from "../state/tasks-reducer";
 import {Task} from "./Task";
 import {changeTitleTodoListAC} from "../state/todoList-reducer";
 import {taskRT, TaskStatuses} from "../api/task-api";
+import {useAppDispatch} from "../hooks/useAppDispatch";
 
 
 type TodolistPropsType = {
@@ -23,10 +23,9 @@ type TodolistPropsType = {
 }
 export const Todolist = React.memo((props: TodolistPropsType) => {
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
-            // @ts-ignore
             dispatch(fetchTasksTC(props.id))
     }, [props.id])
 

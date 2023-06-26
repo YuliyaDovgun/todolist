@@ -4,7 +4,9 @@ import {
     ADD_TODOLIST,
     addTodolistType,
     REMOVE_TODOLIST,
-    removeTodolistType, SET_TODOLISTS, setTodoListsType,
+    removeTodolistType,
+    SET_TODOLISTS,
+    setTodoListsType,
 } from "./todoList-reducer";
 import {taskAPI, taskRT} from "../api/task-api";
 import {AppThunkType} from "./store";
