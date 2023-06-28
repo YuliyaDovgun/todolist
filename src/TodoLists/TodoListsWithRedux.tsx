@@ -4,11 +4,11 @@ import {Todolist} from "../Todolist/Todolist";
 import {filterType, tasksType} from "../App";
 import {Grid, Paper} from "@mui/material";
 import {
-    addTodoListAC,
+    addTodolistTC,
     changeStatusTodoListAC,
-    changeTitleTodoListAC,
+    changeTitleTodoListTC,
     fetchTodoListsTC,
-    removeTodolistAC,
+    removeTodolistTC,
     todolistDomainType
 } from "../state/todoList-reducer";
 import {useSelector} from "react-redux";
@@ -29,13 +29,13 @@ export function TodoListsWithRedux() {
         dispatch(changeStatusTodoListAC(todolistId, filter))
     }, [dispatch])
     const removeTodolist = useCallback((todolistId: string) => {
-        dispatch(removeTodolistAC(todolistId))
+        dispatch(removeTodolistTC(todolistId))
     }, [dispatch])
     const addTodolist = useCallback((todolistTitle: string) => {
-        dispatch(addTodoListAC(todolistTitle))
+        dispatch(addTodolistTC(todolistTitle))
     }, [dispatch])
     const changeTodolistTitle = useCallback((todoListId: string, newTitle: string) => {
-        dispatch(changeTitleTodoListAC(todoListId, newTitle))
+        dispatch(changeTitleTodoListTC(todoListId, newTitle))
     }, [dispatch])
 
     return <Grid container>

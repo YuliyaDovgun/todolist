@@ -10,8 +10,8 @@ export const taskAPI = {
     deleteTask: (todolistId: string, taskId: string) => {
         return instance.delete<tasksRT>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
-    updateTask: (todolistId: string, taskId: string, title: string) => {
-        return instance.put<tasksRT<{item: taskRT}>>(`todo-lists/${todolistId}/tasks/${taskId}`, {title})
+    updateTask: (todolistId: string, taskId: string, model: taskRTUpdateType) => {
+        return instance.put<tasksRT<{item: taskRT}>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
 
     }
 }
@@ -37,6 +37,15 @@ export type taskRT = {
     todoListId: string,
     order: number
     addedDate: Date | string,
+}
+export type taskRTUpdateType = {
+    description: string,
+    title: string,
+    completed: boolean,
+    status: number,
+    priority: number,
+    startDate: Date | string,
+    deadline: Date | string,
 }
 export enum TaskStatuses {
     New,

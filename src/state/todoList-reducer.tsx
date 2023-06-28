@@ -89,3 +89,15 @@ export const fetchTodoListsTC = (): AppThunkType => {
             })
     }
 }
+export const removeTodolistTC = (todolistId: string): AppThunkType => (dispatch) => {
+    todolistAPI.deleteTodolist(todolistId)
+        .then(res => dispatch(removeTodolistAC(todolistId)))
+}
+export const addTodolistTC = (title: string): AppThunkType => (dispatch) => {
+    todolistAPI.createTodolist(title)
+        .then(res => dispatch(addTodoListAC(title)))
+}
+export const changeTitleTodoListTC = (todoListId: string, title: string): AppThunkType => (dispatch) => {
+    todolistAPI.updateTodolist(todoListId, title)
+        .then(res => dispatch(changeTitleTodoListAC(todoListId, title)))
+}
