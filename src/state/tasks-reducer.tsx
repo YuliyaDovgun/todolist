@@ -124,3 +124,7 @@ export const fetchTasksTC = (todoListId: string): AppThunkType => {
                dispatch(setTasksAC(todoListId, res.data.items)))
     }
 }
+export const removeTackTC = (todoListId: string, taskId: string): AppThunkType => (dispatch) => {
+    taskAPI.deleteTask(todoListId, taskId)
+        .then(res => dispatch(removeTaskAC(taskId, todoListId)))
+}
