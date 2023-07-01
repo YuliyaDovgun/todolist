@@ -7,7 +7,6 @@ import {Button, IconButton} from "@mui/material";
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import {addTaskAC, fetchTasksTC} from "../state/tasks-reducer";
 import {Task} from "./Task";
-import {changeTitleTodoListAC} from "../state/todoList-reducer";
 import {taskRT, TaskStatuses} from "../api/task-api";
 import {useAppDispatch} from "../hooks/useAppDispatch";
 
@@ -41,8 +40,8 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
         dispatch(addTaskAC(titleTask, props.id))
     }, [props.id])
     const setNewTodolistTitle = useCallback((newTitle: string) => {
-        dispatch(changeTitleTodoListAC(props.id, newTitle))
-    }, [props.id])
+        props.changeTodolistTitle(props.id, newTitle)
+    }, [props.id, props.changeTodolistTitle])
 
     let tasksForTodolist = props.tasks
 
@@ -62,12 +61,15 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
         </h3>
         <AddItemForm addItem={addTask}/>
         <div>
-            {tasksForTodolist.map(t => <Task key = {t.id} task={t} todoListId={props.id}/>)}
+            {tasksForTodolist.map(t => <Task key={t.id} task={t} todoListId={props.id}/>)}
         </div>
         <div>
-            <Button variant={props.filter === 'All' ? "contained" : "text"} color={'secondary'} onClick={onClickAll}>All</Button>
-            <Button variant={props.filter === 'Completed' ? "contained" : "text"} color={'success'} onClick={onClickCompleted}>Completed</Button>
-            <Button variant={props.filter === 'InProgress' ? "contained" : "text"} onClick={onClickInProgress}>InProgress</Button>
+            <Button variant={props.filter === 'All' ? "contained" : "text"} color={'secondary'}
+                    onClick={onClickAll}>All</Button>
+            <Button variant={props.filter === 'Completed' ? "contained" : "text"} color={'success'}
+                    onClick={onClickCompleted}>Completed</Button>
+            <Button variant={props.filter === 'InProgress' ? "contained" : "text"}
+                    onClick={onClickInProgress}>InProgress</Button>
         </div>
 
     </div>

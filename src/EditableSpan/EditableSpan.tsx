@@ -8,15 +8,22 @@ type EditableSpanPropsType = {
 }
 export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
     const [editMode, setEditMode] = useState<boolean>(false)
+    const [title, setTitle] = useState<string>(props.title)
 
-    const openEditMode = () => setEditMode(!editMode)
-    const openViewMode = () => setEditMode(!editMode)
+    const openEditMode = () => {
+        setEditMode(true)
+        setTitle(props.title)
+    }
+    const openViewMode = () => {
+        setEditMode(false)
+        props.setNewTitle(title)
+    }
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        props.setNewTitle(e.currentTarget.value)
+        setTitle(e.currentTarget.value)
     }
     return editMode
         ? <Input
-            value={props.title}
+            value={title}
             size="small"
             onChange={onChangeTitle}
             onBlur={openViewMode}/>
