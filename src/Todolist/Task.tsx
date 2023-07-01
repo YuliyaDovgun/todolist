@@ -1,6 +1,6 @@
 import React, {memo, useCallback} from "react";
 import s from "./Todolist.module.css";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTackTC} from "../state/tasks-reducer";
+import {removeTackTC, updateTaskTC} from "../state/tasks-reducer";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
@@ -20,10 +20,10 @@ export const Task: React.FC<TaskPropsType> = memo(({task, todoListId}) => {
         dispatch(removeTackTC(todoListId, task.id))
     }
     const onClickInputHandler = () => {
-        dispatch(changeTaskStatusAC(task.id, task.status === TaskStatuses.New ? TaskStatuses.InProgress : TaskStatuses.New, todoListId))
+        dispatch(updateTaskTC(todoListId, task.id, {status: task.status === TaskStatuses.New ? TaskStatuses.InProgress : TaskStatuses.New}))
     }
     const setNewTaskTitle = useCallback((newTitle: string) => {
-        dispatch(changeTaskTitleAC(task.id, newTitle, todoListId))
+        dispatch(updateTaskTC(todoListId, task.id, {title: newTitle}))
     }, [])
 
     return <div key={task.id}>

@@ -1,11 +1,9 @@
 import {tasksType} from "../App";
 import {
     addTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
     removeTaskAC,
     setTasksAC,
-    tasksReducer
+    tasksReducer, updateTaskAC
 } from "./tasks-reducer";
 import {
     addTodoListAC,
@@ -66,7 +64,7 @@ test('task should be added',() => {
 })
 test('task status should be changed',() => {
 
-    const newTasks = tasksReducer(tasks, changeTaskStatusAC('2', TaskStatuses.Completed, 'todolistId2'))
+    const newTasks = tasksReducer(tasks, updateTaskAC('2', {status: TaskStatuses.Completed}, 'todolistId2'))
 
     expect(tasks['todolistId2'].length).toBe(2)
     expect(newTasks['todolistId1'][1].status).toBe(TaskStatuses.InProgress)
@@ -74,7 +72,7 @@ test('task status should be changed',() => {
 })
 test('task title should be changed',() => {
 
-    const newTodoLists = tasksReducer(tasks, changeTaskTitleAC('2', 'changedTitle', 'todolistId2'))
+    const newTodoLists = tasksReducer(tasks, updateTaskAC('2', {title: 'changedTitle'}, 'todolistId2'))
 
     expect(tasks['todolistId2'].length).toBe(2)
     expect(tasks['todolistId2'][1].title).toBe('English')
