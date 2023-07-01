@@ -17,25 +17,35 @@ let tasks: tasksType
 let todoLists: Array<todolistDomainType>
 
 beforeEach(() => {
-    tasks =  {
+    tasks = {
         'todolistId1': [
-            {id: '1', title: 'Milk', status: TaskStatuses.InProgress,  description: '',
+            {
+                id: '1', title: 'Milk', status: TaskStatuses.InProgress, description: '',
                 completed: false, priority: 0, startDate: '', deadline: '',
-                todoListId: 'todolistId1', order: 0, addedDate: '',},
-            {id: '2', title: 'Beer', status: TaskStatuses.InProgress,  description: '',
+                todoListId: 'todolistId1', order: 0, addedDate: '',
+            },
+            {
+                id: '2', title: 'Beer', status: TaskStatuses.InProgress, description: '',
                 completed: false, priority: 0, startDate: '', deadline: '',
-                todoListId: 'todolistId1', order: 0, addedDate: '',},
-            {id: '3', title: 'Fish', status: TaskStatuses.InProgress,  description: '',
+                todoListId: 'todolistId1', order: 0, addedDate: '',
+            },
+            {
+                id: '3', title: 'Fish', status: TaskStatuses.InProgress, description: '',
                 completed: false, priority: 0, startDate: '', deadline: '',
-                todoListId: 'todolistId1', order: 0, addedDate: '',},
+                todoListId: 'todolistId1', order: 0, addedDate: '',
+            },
         ],
         'todolistId2': [
-            {id: '1', title: 'JS', status: TaskStatuses.InProgress,  description: '',
+            {
+                id: '1', title: 'JS', status: TaskStatuses.InProgress, description: '',
                 completed: false, priority: 0, startDate: '', deadline: '',
-                todoListId: 'todolistId2', order: 0, addedDate: '',},
-            {id: '2', title: 'English', status: TaskStatuses.InProgress,  description: '',
+                todoListId: 'todolistId2', order: 0, addedDate: '',
+            },
+            {
+                id: '2', title: 'English', status: TaskStatuses.InProgress, description: '',
                 completed: false, priority: 0, startDate: '', deadline: '',
-                todoListId: 'todolistId2', order: 0, addedDate: '',},
+                todoListId: 'todolistId2', order: 0, addedDate: '',
+            },
         ],
     }
     todoLists = [
@@ -43,7 +53,7 @@ beforeEach(() => {
         {id: 'todolistId4', title: 'What to learn', addedDate: '', order: 0, filter: 'All'},
     ]
 })
-test('task should be removed',() => {
+test('task should be removed', () => {
 
     const newTodoLists = tasksReducer(tasks, removeTaskAC('1', 'todolistId1'))
 
@@ -52,17 +62,22 @@ test('task should be removed',() => {
     expect(newTodoLists['todolistId1'][0].id).toBe('2')
     expect(newTodoLists['todolistId1'][0].title).toBe('Beer')
 })
-test('task should be added',() => {
+test('task should be added', () => {
+    const newTask = {
+        id: '4', title: 'newTask', status: TaskStatuses.New, description: '',
+        completed: false, priority: 0, startDate: '', deadline: '',
+        todoListId: 'todolistId1', order: 0, addedDate: '',
+    }
 
-    const newTodoLists = tasksReducer(tasks, addTaskAC('newTask', 'todolistId1'))
+    const newTodoLists = tasksReducer(tasks, addTaskAC(newTask))
 
     expect(tasks['todolistId1'].length).toBe(3)
     expect(newTodoLists['todolistId1'].length).toBe(4)
-    expect(newTodoLists['todolistId1'][0].id).toBeDefined()
+    expect(newTodoLists['todolistId1'][0].id).toBe('4')
     expect(newTodoLists['todolistId1'][0].title).toBe('newTask')
     expect(newTodoLists['todolistId1'][0].status).toBe(0)
 })
-test('task status should be changed',() => {
+test('task status should be changed', () => {
 
     const newTasks = tasksReducer(tasks, updateTaskAC('2', {status: TaskStatuses.Completed}, 'todolistId2'))
 
@@ -70,7 +85,7 @@ test('task status should be changed',() => {
     expect(newTasks['todolistId1'][1].status).toBe(TaskStatuses.InProgress)
     expect(newTasks['todolistId2'][1].status).toBe(TaskStatuses.Completed)
 })
-test('task title should be changed',() => {
+test('task title should be changed', () => {
 
     const newTodoLists = tasksReducer(tasks, updateTaskAC('2', {title: 'changedTitle'}, 'todolistId2'))
 
@@ -78,7 +93,7 @@ test('task title should be changed',() => {
     expect(tasks['todolistId2'][1].title).toBe('English')
     expect(newTodoLists['todolistId2'][1].title).toBe('changedTitle')
 })
-test('empty task array should be added when todoList added',() => {
+test('empty task array should be added when todoList added', () => {
 
     const newTasks = tasksReducer(tasks, addTodoListAC('new todolist', '123'))
 
@@ -91,7 +106,7 @@ test('empty task array should be added when todoList added',() => {
     expect(keys.length).toBe(3)
     expect(newTasks[newKey]).toEqual([])
 })
-test('task array should be removed when todoList removed',() => {
+test('task array should be removed when todoList removed', () => {
 
     const newTasks = tasksReducer(tasks, removeTodolistAC('todolistId1'))
 
@@ -100,7 +115,7 @@ test('task array should be removed when todoList removed',() => {
     expect(keys.length).toBe(1)
     expect(newTasks['todolistId1']).toBeUndefined()
 })
-test('empty array should be added when todoLists set',() => {
+test('empty array should be added when todoLists set', () => {
 
     const newTasks = tasksReducer(tasks, setTodoListsAC(todoLists))
 
@@ -112,9 +127,11 @@ test('empty array should be added when todoLists set',() => {
 })
 test('tasks should be set for each todoLists', () => {
 
-    const task =  {id: '3', title: 'new task', status: TaskStatuses.New,  description: '',
+    const task = {
+        id: '3', title: 'new task', status: TaskStatuses.New, description: '',
         completed: false, priority: 0, startDate: '', deadline: '',
-        todoListId: 'todolistId2', order: 0, addedDate: '',}
+        todoListId: 'todolistId2', order: 0, addedDate: '',
+    }
 
     const newTasks = tasksReducer(tasks, setTasksAC('todolistId2', [task]))
 

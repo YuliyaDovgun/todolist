@@ -1,10 +1,5 @@
 import {tasksType} from "../App";
-import {v1} from "uuid";
-import {
-    addTodolistType,
-    removeTodolistType,
-    setTodoListsType,
-} from "./todoList-reducer";
+import {addTodolistType, removeTodolistType, setTodoListsType,} from "./todoList-reducer";
 import {taskAPI, taskRT} from "../api/task-api";
 import {AppThunkType} from "./store";
 
@@ -18,11 +13,7 @@ export const tasksReducer = (state = initState, action: tasksActionType): tasksT
         case ('ADD-TASK'): {
             return {
                 ...state,
-                [action.todoListId]: [{
-                    id: v1(), title: action.title, status: 0, description: '',
-                    completed: false, priority: 0, startDate: '', deadline: '',
-                    todoListId: action.todoListId, order: 0, addedDate: '',
-                }, ...state[action.todoListId]]
+                [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]
             }
         }
         case 'UPDATE-TASK': {
@@ -57,8 +48,8 @@ export const tasksReducer = (state = initState, action: tasksActionType): tasksT
 export const removeTaskAC = (taskId: string, todoListId: string) => ({
     type: 'REMOVE-TASK', taskId, todoListId
 }as const)
-export const addTaskAC = (title: string, todoListId: string) => ({
-    type: 'ADD-TASK', title, todoListId
+export const addTaskAC = (task: taskRT) => ({
+    type: 'ADD-TASK', task
 }as const)
 export const updateTaskAC = (taskId: string, domainModel: domainTaskRTUpdateType, todoListId: string) => ({
     type: 'UPDATE-TASK', taskId, domainModel, todoListId
@@ -78,7 +69,7 @@ export const removeTackTC = (todoListId: string, taskId: string): AppThunkType =
 }
 export const addTackTC = (todoListId: string, title: string): AppThunkType => (dispatch) => {
     taskAPI.createTask(todoListId, title)
-        .then(res => dispatch(addTaskAC(title, todoListId)))
+        .then(res => dispatch(addTaskAC(res.data.data.item)))
 }
 export const updateTaskTC = (todolistId: string, taskId: string, domainModel: domainTaskRTUpdateType): AppThunkType => (dispatch, getState) => {
     const apiModel = getState().tasks[todolistId].find(t => t.id === taskId)
