@@ -7,7 +7,7 @@ test('todoList should be removed',() => {
     const todoLists: Array<todolistDomainType> = []
     const tasks: tasksType = {}
 
-    const action = addTodoListAC('newTodoList')
+    const action = addTodoListAC('newTodoList', '123')
     const newTodoLists = todoListReducer(todoLists, action)
     const newTasks = tasksReducer(tasks, action)
 

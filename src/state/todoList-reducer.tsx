@@ -1,5 +1,4 @@
 import {filterType} from "../App";
-import {v1} from "uuid";
 import {todolistAPI, todolistRT} from "../api/todolist-api";
 import {AppThunkType} from "./store";
 
@@ -69,8 +68,8 @@ export const todoListReducer = (state = initState, action: todoListActionType): 
 export const removeTodolistAC = (todolistId: string): removeTodolistType => ({
     type: REMOVE_TODOLIST, id: todolistId
 })
-export const addTodoListAC = (title: string): addTodolistType => ({
-    type: ADD_TODOLIST, title, todoListId: v1()
+export const addTodoListAC = (title: string, todoListId: string): addTodolistType => ({
+    type: ADD_TODOLIST, title, todoListId
 })
 export const changeTitleTodoListAC = (todoListId: string, newTitle: string): changeTitleTodoListType => ({
     type: CHANGE_TITLE_TODOLIST, id: todoListId, newTitle
@@ -95,7 +94,7 @@ export const removeTodolistTC = (todolistId: string): AppThunkType => (dispatch)
 }
 export const addTodolistTC = (title: string): AppThunkType => (dispatch) => {
     todolistAPI.createTodolist(title)
-        .then(res => dispatch(addTodoListAC(title)))
+        .then(res => dispatch(addTodoListAC(title, res.data.data.item.id)))
 }
 export const changeTitleTodoListTC = (todoListId: string, title: string): AppThunkType => (dispatch) => {
     todolistAPI.updateTodolist(todoListId, title)

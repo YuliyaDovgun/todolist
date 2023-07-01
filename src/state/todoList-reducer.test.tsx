@@ -33,7 +33,7 @@ test('todoList should be added',() => {
 
     const title: string = 'New todoList'
 
-    const newTodoLists = todoListReducer(todolists, addTodoListAC(title))
+    const newTodoLists = todoListReducer(todolists, addTodoListAC(title, '123'))
 
     expect(todolists.length).toBe(2)
     expect(newTodoLists.length).toBe(3)
