@@ -5,7 +5,7 @@ import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import {addTaskAC, fetchTasksTC} from "../state/tasks-reducer";
+import {addTackTC, fetchTasksTC} from "../state/tasks-reducer";
 import {Task} from "./Task";
 import {taskRT, TaskStatuses} from "../api/task-api";
 import {useAppDispatch} from "../hooks/useAppDispatch";
@@ -37,7 +37,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     }
 
     const addTask = useCallback((titleTask: string) => {
-        dispatch(addTaskAC(titleTask, props.id))
+        dispatch(addTackTC(props.id, titleTask))
     }, [props.id])
     const setNewTodolistTitle = useCallback((newTitle: string) => {
         props.changeTodolistTitle(props.id, newTitle)
