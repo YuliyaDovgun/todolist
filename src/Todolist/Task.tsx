@@ -1,11 +1,11 @@
 import React, {memo, useCallback} from "react";
 import s from "./Todolist.module.css";
-import {useDispatch} from "react-redux";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasks-reducer";
+import {changeTaskStatusAC, changeTaskTitleAC, removeTackTC} from "../state/tasks-reducer";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import {taskRT, TaskStatuses} from "../api/task-api";
+import {useAppDispatch} from "../hooks/useAppDispatch";
 
 type TaskPropsType = {
     task: taskRT
@@ -13,11 +13,11 @@ type TaskPropsType = {
 }
 export const Task: React.FC<TaskPropsType> = memo(({task, todoListId}) => {
     const classNameIsDone = task.status ? s.isDone : ""
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
 
     const onClickButtonHandler = () => {
-        dispatch(removeTaskAC(task.id, todoListId))
+        dispatch(removeTackTC(todoListId, task.id))
     }
     const onClickInputHandler = () => {
         dispatch(changeTaskStatusAC(task.id, task.status === TaskStatuses.New ? TaskStatuses.InProgress : TaskStatuses.New, todoListId))
