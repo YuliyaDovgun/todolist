@@ -2,6 +2,7 @@ import {tasksType} from "../App";
 import {addTodolistType, removeTodolistType, setTodoListsType,} from "./todoList-reducer";
 import {taskAPI, taskRT} from "../api/task-api";
 import {AppThunkType} from "./store";
+import {setAppStatusAC} from "./app-reducer";
 
 const initState: tasksType = {}
 
@@ -59,19 +60,31 @@ export const setTasksAC = (todoListId: string, tasks: taskRT[]) => ({
 }as const)
 
 export const fetchTasksTC = (todoListId: string): AppThunkType => (dispatch) => {
-        taskAPI.getTasks(todoListId)
-            .then(res =>
-                dispatch(setTasksAC(todoListId, res.data.items)))
+    dispatch(setAppStatusAC('loading'))
+    taskAPI.getTasks(todoListId)
+            .then(res => {
+                dispatch(setAppStatusAC('success'))
+                dispatch(setTasksAC(todoListId, res.data.items))
+            })
 }
 export const removeTackTC = (todoListId: string, taskId: string): AppThunkType => (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     taskAPI.deleteTask(todoListId, taskId)
-        .then(res => dispatch(removeTaskAC(taskId, todoListId)))
+        .then(res => {
+            dispatch(setAppStatusAC('success'))
+            dispatch(removeTaskAC(taskId, todoListId))
+        })
 }
 export const addTackTC = (todoListId: string, title: string): AppThunkType => (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     taskAPI.createTask(todoListId, title)
-        .then(res => dispatch(addTaskAC(res.data.data.item)))
+        .then(res => {
+            dispatch(setAppStatusAC('success'))
+            dispatch(addTaskAC(res.data.data.item))
+        })
 }
 export const updateTaskTC = (todolistId: string, taskId: string, domainModel: domainTaskRTUpdateType): AppThunkType => (dispatch, getState) => {
+    dispatch(setAppStatusAC('loading'))
     const apiModel = getState().tasks[todolistId].find(t => t.id === taskId)
     if (apiModel){
         taskAPI.updateTask(todolistId, taskId, {
@@ -84,7 +97,10 @@ export const updateTaskTC = (todolistId: string, taskId: string, domainModel: do
             completed: apiModel.completed,
             ...domainModel
         })
-            .then(res => dispatch(updateTaskAC(taskId, res.data.data.item, todolistId)))
+            .then(res => {
+                dispatch(setAppStatusAC('success'))
+                dispatch(updateTaskAC(taskId, res.data.data.item, todolistId))
+            })
     }
 
 }

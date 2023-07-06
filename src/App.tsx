@@ -1,12 +1,13 @@
 import React, {ChangeEvent, MouseEvent, useState} from 'react';
 import './App.css';
-import {AppBar, Container, IconButton, Menu, MenuItem, Toolbar, Typography} from '@mui/material';
+import {AppBar, Container, IconButton, LinearProgress, Menu, MenuItem, Toolbar, Typography} from '@mui/material';
 import {AccountCircle} from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import {TodoListsWithRedux} from "./TodoLists/TodoListsWithRedux";
-import {Provider} from "react-redux";
-import {store} from "./state/store";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "./state/store";
 import {taskRT} from "./api/task-api";
+import {appStatusType} from "./state/app-reducer";
 
 /*export type taskType = {
     id: string
@@ -19,6 +20,9 @@ export type tasksType = {
 }
 
 function App() {
+
+    const status = useSelector<AppRootStateType, appStatusType>(state => state.app.status)
+
     const [auth, setAuth] = useState(true);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -83,8 +87,9 @@ function App() {
                         </div>
                     )}
                 </Toolbar>
+                {status === 'loading' && <LinearProgress color="secondary"/>}
             </AppBar>
-            <Provider store={store}><TodoListsWithRedux/></Provider>
+            <TodoListsWithRedux/>
         </Container>
     );
 }
