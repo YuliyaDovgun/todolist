@@ -56,12 +56,12 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
 
     return <div className={s.Todolist}>
         <h3>
-            <EditableSpan title={props.title} setNewTitle={setNewTodolistTitle}/>
+            <EditableSpan title={props.title} setNewTitle={setNewTodolistTitle} disabled={props.entityStatus === 'loading'}/>
             <IconButton color={'secondary'} onClick={onClickButtonHandler} disabled={props.entityStatus === 'loading'}>
                 <DeleteTwoToneIcon/>
             </IconButton>
         </h3>
-        <AddItemForm addItem={addTask}/>
+        <AddItemForm addItem={addTask} disabled={props.entityStatus === 'loading'}/>
         <div>
             {tasksForTodolist.map(t => <Task key={t.id} task={t} todoListId={props.id}/>)}
         </div>

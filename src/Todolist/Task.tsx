@@ -27,8 +27,8 @@ export const Task: React.FC<TaskPropsType> = memo(({task, todoListId}) => {
     }, [])
 
     return <div key={task.id}>
-        <Checkbox checked={task.status !== TaskStatuses.New} onClick={onClickInputHandler} color="secondary"/>
-        <EditableSpan className={classNameIsDone} title={task.title} setNewTitle={setNewTaskTitle}/>
+        <Checkbox checked={task.status !== TaskStatuses.New} onClick={onClickInputHandler} color="secondary" disabled={task.entityStatus === 'loading'}/>
+        <EditableSpan className={classNameIsDone} title={task.title} setNewTitle={setNewTaskTitle} disabled={task.entityStatus === 'loading'}/>
         <IconButton color={'secondary'} onClick={onClickButtonHandler} disabled={task.entityStatus === 'loading'}>
             <DeleteTwoToneIcon/>
         </IconButton>

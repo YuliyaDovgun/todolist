@@ -4,8 +4,9 @@ import React, {ChangeEvent, KeyboardEvent, memo, useState} from "react";
 
 type AddItemFormPropsType = {
     addItem: (itemTitle: string) => void
+    disabled?: boolean
 }
-export const AddItemForm: React.FC<AddItemFormPropsType> = memo(({addItem}) => {
+export const AddItemForm: React.FC<AddItemFormPropsType> = memo(({addItem, disabled}) => {
     const [taskTitle, setTaskTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
 
@@ -37,8 +38,9 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = memo(({addItem}) => {
             value={taskTitle}
             onChange={onChangeHandler}
             onKeyPress={onKeyPressHandler}
+            disabled={disabled}
         />
-        <IconButton color={'secondary'} onClick={onClickHandler}>
+        <IconButton color={'secondary'} onClick={onClickHandler} disabled={disabled}>
             <AddTask/>
         </IconButton>
     </div>
