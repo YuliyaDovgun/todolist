@@ -18,7 +18,7 @@ export const setAppStatusAC = (status: appStatusType) => ({type: 'APP/SET-STATUS
 export const setAppErrorAC = (error: null | string) => ({type: 'APP/SET-ERROR', error} as const)
 
 export type appStatusType = 'idle' | 'loading' | 'success' | 'failed'
-type appStateType = typeof initStateType
+export type appStateType = typeof initStateType
 
 export type setAppStatusAT = ReturnType<typeof setAppStatusAC>
 export type setAppErrorAT = ReturnType<typeof setAppErrorAC>
