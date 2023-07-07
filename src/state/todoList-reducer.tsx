@@ -2,6 +2,8 @@ import {filterType} from "../App";
 import {todolistAPI, todolistRT} from "../api/todolist-api";
 import {AppThunkType} from "./store";
 import {setAppStatusAC} from "./app-reducer";
+import {AxiosError} from "axios";
+import {handleNetworkAppError, handleServerAppError} from "../utils/errors-utils";
 
 const initState: Array<todolistDomainType> = []
 
@@ -30,50 +32,74 @@ export const todoListReducer = (state = initState, action: todoListActionType): 
 
 export const removeTodolistAC = (todolistId: string) => ({
     type: 'REMOVE-TODOLIST', id: todolistId
-}as const)
+} as const)
 export const addTodoListAC = (title: string, todoListId: string) => ({
     type: 'ADD-TODOLIST', title, todoListId
-}as const)
+} as const)
 export const changeTitleTodoListAC = (todoListId: string, newTitle: string) => ({
     type: 'CHANGE-TITLE-TODOLIST', id: todoListId, newTitle
-}as const)
+} as const)
 export const changeStatusTodoListAC = (todoListId: string, newStatus: filterType) => ({
     type: 'CHANGE-STATUS-TODOLIST', id: todoListId, newStatus
-}as const)
+} as const)
 export const setTodoListsAC = (todoLists: Array<todolistRT>) => ({
     type: 'SET-TODOLISTS', todoLists
-}as const)
+} as const)
 
-export const fetchTodoListsTC = (): AppThunkType => (dispatch) =>  {
+export const fetchTodoListsTC = (): AppThunkType => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
-        todolistAPI.getTodolists()
-            .then((res) => {
-                dispatch(setAppStatusAC('success'))
-                dispatch(setTodoListsAC(res.data))
-            })
+    todolistAPI.getTodolists()
+        .then((res) => {
+            dispatch(setAppStatusAC('success'))
+            dispatch(setTodoListsAC(res.data))
+        })
+        .catch((e: AxiosError<ErrorsType>) => {
+            handleNetworkAppError(e.message, dispatch)
+        })
 }
 export const removeTodolistTC = (todolistId: string): AppThunkType => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistAPI.deleteTodolist(todolistId)
         .then(res => {
-            dispatch(setAppStatusAC('success'))
-            dispatch(removeTodolistAC(todolistId))
+            if (res.data.resultCode === 0) {
+                dispatch(setAppStatusAC('success'))
+                dispatch(removeTodolistAC(todolistId))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch((e: AxiosError<ErrorsType>) => {
+            handleNetworkAppError(e.message, dispatch)
         })
 }
 export const addTodolistTC = (title: string): AppThunkType => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistAPI.createTodolist(title)
         .then(res => {
-            dispatch(setAppStatusAC('success'))
-            dispatch(addTodoListAC(title, res.data.data.item.id))
+            if(res.data.resultCode === 0) {
+                dispatch(setAppStatusAC('success'))
+                dispatch(addTodoListAC(title, res.data.data.item.id))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch((e: AxiosError<ErrorsType>) => {
+            handleNetworkAppError(e.message, dispatch)
         })
 }
 export const changeTitleTodoListTC = (todoListId: string, title: string): AppThunkType => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistAPI.updateTodolist(todoListId, title)
         .then(res => {
-            dispatch(setAppStatusAC('success'))
-            dispatch(changeTitleTodoListAC(todoListId, title))
+            if(res.data.resultCode === 0) {
+                dispatch(setAppStatusAC('success'))
+                dispatch(changeTitleTodoListAC(todoListId, title))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch((e: AxiosError<ErrorsType>) => {
+            handleNetworkAppError(e.message, dispatch)
         })
 }
 
@@ -90,4 +116,9 @@ export type todoListActionType =
     | changeStatusTodoListType
     | setTodoListsType
 
-export type todolistDomainType = todolistRT & {filter: filterType}
+export type todolistDomainType = todolistRT & { filter: filterType }
+
+export type ErrorsType = {
+    field: string,
+    message: string,
+}

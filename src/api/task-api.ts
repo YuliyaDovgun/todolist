@@ -20,7 +20,7 @@ type getTasksRT = {
     totalCount: number,
     error: string
 }
-type tasksRT<T = {}> = {
+export type tasksRT<T = {}> = {
     data: T,
     resultCode: number,
     messages: string[],

@@ -21,7 +21,7 @@ export type todolistRT = {
     addedDate: Date | string,
     order: number
 }
-type todolistsRT<T = {}> = {
+export type todolistsRT<T = {}> = {
     data: T,
     messages: string[],
     resultCode: number

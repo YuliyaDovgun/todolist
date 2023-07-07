@@ -8,6 +8,7 @@ import {useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {taskRT} from "./api/task-api";
 import {appStatusType} from "./state/app-reducer";
+import ErrorSnackbar from "./common/SnackBar/ErrorSnackbar";
 
 /*export type taskType = {
     id: string
@@ -40,6 +41,7 @@ function App() {
 
     return (
         <Container fixed>
+            <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
