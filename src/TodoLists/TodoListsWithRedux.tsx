@@ -9,7 +9,7 @@ import {
     changeTitleTodoListTC,
     fetchTodoListsTC,
     removeTodolistTC,
-    todolistDomainType
+    todolistInitStateType
 } from "../state/todoList-reducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../state/store";
@@ -18,7 +18,7 @@ import {useAppDispatch} from "../hooks/useAppDispatch";
 export function TodoListsWithRedux() {
 
     const dispatch = useAppDispatch()
-    const todoLists = useSelector<AppRootStateType, todolistDomainType[]>(state => state.todoLists)
+    const todoLists = useSelector<AppRootStateType, todolistInitStateType[]>(state => state.todoLists)
     const tasks = useSelector<AppRootStateType, tasksType>(state => state.tasks)
 
     useEffect(() => {
@@ -54,6 +54,7 @@ export function TodoListsWithRedux() {
                         removeTodolist={removeTodolist}
                         changeTodolistTitle={changeTodolistTitle}
                         tasks={tasks[tl.id]}
+                        entityStatus={tl.entityStatus}
                     />
                 </Paper>
             </Grid>

@@ -9,6 +9,7 @@ import {addTackTC, fetchTasksTC} from "../state/tasks-reducer";
 import {Task} from "./Task";
 import {taskRT, TaskStatuses} from "../api/task-api";
 import {useAppDispatch} from "../hooks/useAppDispatch";
+import {appStatusType} from "../state/app-reducer";
 
 
 type TodolistPropsType = {
@@ -19,6 +20,7 @@ type TodolistPropsType = {
     removeTodolist: (todolistId: string) => void
     changeTodolistTitle: (todolistId: string, newTitle: string) => void
     tasks: taskRT[]
+    entityStatus: appStatusType
 }
 export const Todolist = React.memo((props: TodolistPropsType) => {
 
@@ -55,7 +57,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     return <div className={s.Todolist}>
         <h3>
             <EditableSpan title={props.title} setNewTitle={setNewTodolistTitle}/>
-            <IconButton color={'secondary'} onClick={onClickButtonHandler}>
+            <IconButton color={'secondary'} onClick={onClickButtonHandler} disabled={props.entityStatus === 'loading'}>
                 <DeleteTwoToneIcon/>
             </IconButton>
         </h3>

@@ -4,21 +4,22 @@ import {
     addTodoListAC,
     changeStatusTodoListAC,
     changeTitleTodoListAC,
-    removeTodolistAC,
+    removeTodolistAC, setTodoListEntityStatusAC,
     setTodoListsAC,
-    todolistDomainType,
+    todolistInitStateType,
     todoListReducer
 } from "./todoList-reducer";
+import {appStatusType} from "./app-reducer";
 
-let todolists: Array<todolistDomainType>
+let todolists: Array<todolistInitStateType>
 
 const todolistId1 = v1()
 const todolistId2 = v1()
 
 beforeEach(() => {
     todolists = [
-        {id: todolistId1, title: 'What to do',  addedDate: '', order: 0, filter: 'All',},
-        {id: todolistId2, title: 'What to learn', addedDate: '', order: 0,filter: 'All'},
+        {id: todolistId1, title: 'What to do',  addedDate: '', order: 0, filter: 'All', entityStatus: 'idle'},
+        {id: todolistId2, title: 'What to learn', addedDate: '', order: 0,filter: 'All', entityStatus: 'idle'},
     ]
 })
 test('todoList should be removed',() => {
@@ -68,4 +69,13 @@ test('todoList should be set',() => {
     const newTodoLists = todoListReducer([], setTodoListsAC(todolists))
 
     expect(newTodoLists.length).toBe(2)
+})
+test('todoList entityStatus should be changed', () => {
+
+    const newEntityStatus: appStatusType = 'success'
+
+    const newTodoLists = todoListReducer(todolists, setTodoListEntityStatusAC(todolistId1, newEntityStatus))
+
+    expect(newTodoLists[0].entityStatus).toBe('success')
+    expect(newTodoLists[1].entityStatus).toBe('idle')
 })
