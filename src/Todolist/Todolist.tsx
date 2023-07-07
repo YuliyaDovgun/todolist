@@ -1,15 +1,15 @@
 import React, {useCallback, useEffect} from "react";
-import {filterType} from "../App";
 import s from "./Todolist.module.css"
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import {addTackTC, fetchTasksTC} from "../state/tasks-reducer";
+import {addTackTC, fetchTasksTC, taskDomainType} from "../state/tasks-reducer";
 import {Task} from "./Task";
-import {taskRT, TaskStatuses} from "../api/task-api";
+import {TaskStatuses} from "../api/task-api";
 import {useAppDispatch} from "../hooks/useAppDispatch";
 import {appStatusType} from "../state/app-reducer";
+import {filterType} from "../state/todoList-reducer";
 
 
 type TodolistPropsType = {
@@ -19,7 +19,7 @@ type TodolistPropsType = {
     filter: filterType
     removeTodolist: (todolistId: string) => void
     changeTodolistTitle: (todolistId: string, newTitle: string) => void
-    tasks: taskRT[]
+    tasks: taskDomainType[]
     entityStatus: appStatusType
 }
 export const Todolist = React.memo((props: TodolistPropsType) => {

@@ -1,14 +1,14 @@
 import React, {memo, useCallback} from "react";
 import s from "./Todolist.module.css";
-import {removeTackTC, updateTaskTC} from "../state/tasks-reducer";
+import {removeTackTC, taskDomainType, updateTaskTC} from "../state/tasks-reducer";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
-import {taskRT, TaskStatuses} from "../api/task-api";
+import {TaskStatuses} from "../api/task-api";
 import {useAppDispatch} from "../hooks/useAppDispatch";
 
 type TaskPropsType = {
-    task: taskRT
+    task: taskDomainType
     todoListId: string
 }
 export const Task: React.FC<TaskPropsType> = memo(({task, todoListId}) => {
@@ -29,7 +29,7 @@ export const Task: React.FC<TaskPropsType> = memo(({task, todoListId}) => {
     return <div key={task.id}>
         <Checkbox checked={task.status !== TaskStatuses.New} onClick={onClickInputHandler} color="secondary"/>
         <EditableSpan className={classNameIsDone} title={task.title} setNewTitle={setNewTaskTitle}/>
-        <IconButton color={'secondary'} onClick={onClickButtonHandler}>
+        <IconButton color={'secondary'} onClick={onClickButtonHandler} disabled={task.entityStatus === 'loading'}>
             <DeleteTwoToneIcon/>
         </IconButton>
     </div>

@@ -1,13 +1,12 @@
-import {filterType} from "../App";
 import {todolistAPI, todolistRT} from "../api/todolist-api";
 import {AppThunkType} from "./store";
 import {appStatusType, setAppStatusAC} from "./app-reducer";
 import {AxiosError} from "axios";
 import {handleNetworkAppError, handleServerAppError} from "../utils/errors-utils";
 
-const initState: Array<todolistInitStateType> = []
+const initState: Array<todolistDomainType> = []
 
-export const todoListReducer = (state = initState, action: todoListActionType): Array<todolistInitStateType> => {
+export const todoListReducer = (state = initState, action: todoListActionType): Array<todolistDomainType> => {
     switch (action.type) {
         case ('REMOVE-TODOLIST'): {
             return state.filter(tl => tl.id !== action.id)
@@ -135,8 +134,8 @@ export type todoListActionType =
     | setTodoListsType
     | setTodolistStatusType
 
-export type todolistDomainType = todolistRT & { filter: filterType }
-export type todolistInitStateType = todolistDomainType & { entityStatus: appStatusType }
+export type filterType = 'All' | 'Completed' | 'InProgress'
+export type todolistDomainType = todolistRT & { filter: filterType, entityStatus: appStatusType}
 
 export type ErrorsType = {
     field: string,

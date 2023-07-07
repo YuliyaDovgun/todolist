@@ -1,9 +1,8 @@
-import {tasksType} from "../App";
 import {
     addTaskAC,
-    removeTaskAC,
+    removeTaskAC, setTaskEntityStatusAC,
     setTasksAC,
-    tasksReducer, updateTaskAC
+    tasksReducer, tasksType, updateTaskAC
 } from "./tasks-reducer";
 import {
     addTodoListAC,
@@ -12,6 +11,7 @@ import {
     todolistDomainType,
 } from "./todoList-reducer";
 import {TaskStatuses} from "../api/task-api";
+import {appStatusType} from "./app-reducer";
 
 let tasks: tasksType
 let todoLists: Array<todolistDomainType>
@@ -22,35 +22,35 @@ beforeEach(() => {
             {
                 id: '1', title: 'Milk', status: TaskStatuses.InProgress, description: '',
                 completed: false, priority: 0, startDate: '', deadline: '',
-                todoListId: 'todolistId1', order: 0, addedDate: '',
+                todoListId: 'todolistId1', order: 0, addedDate: '', entityStatus: "idle",
             },
             {
                 id: '2', title: 'Beer', status: TaskStatuses.InProgress, description: '',
                 completed: false, priority: 0, startDate: '', deadline: '',
-                todoListId: 'todolistId1', order: 0, addedDate: '',
+                todoListId: 'todolistId1', order: 0, addedDate: '', entityStatus: "idle",
             },
             {
                 id: '3', title: 'Fish', status: TaskStatuses.InProgress, description: '',
                 completed: false, priority: 0, startDate: '', deadline: '',
-                todoListId: 'todolistId1', order: 0, addedDate: '',
+                todoListId: 'todolistId1', order: 0, addedDate: '', entityStatus: "idle",
             },
         ],
         'todolistId2': [
             {
                 id: '1', title: 'JS', status: TaskStatuses.InProgress, description: '',
                 completed: false, priority: 0, startDate: '', deadline: '',
-                todoListId: 'todolistId2', order: 0, addedDate: '',
+                todoListId: 'todolistId2', order: 0, addedDate: '', entityStatus: "idle",
             },
             {
                 id: '2', title: 'English', status: TaskStatuses.InProgress, description: '',
                 completed: false, priority: 0, startDate: '', deadline: '',
-                todoListId: 'todolistId2', order: 0, addedDate: '',
+                todoListId: 'todolistId2', order: 0, addedDate: '', entityStatus: "idle",
             },
         ],
     }
     todoLists = [
-        {id: 'todolistId3', title: 'What to do', addedDate: '', order: 0, filter: 'All',},
-        {id: 'todolistId4', title: 'What to learn', addedDate: '', order: 0, filter: 'All'},
+        {id: 'todolistId3', title: 'What to do', addedDate: '', order: 0, filter: 'All', entityStatus: "idle"},
+        {id: 'todolistId4', title: 'What to learn', addedDate: '', order: 0, filter: 'All', entityStatus: "idle"},
     ]
 })
 test('task should be removed', () => {
@@ -66,7 +66,7 @@ test('task should be added', () => {
     const newTask = {
         id: '4', title: 'newTask', status: TaskStatuses.New, description: '',
         completed: false, priority: 0, startDate: '', deadline: '',
-        todoListId: 'todolistId1', order: 0, addedDate: '',
+        todoListId: 'todolistId1', order: 0, addedDate: '', entityStatus: "idle",
     }
 
     const newTodoLists = tasksReducer(tasks, addTaskAC(newTask))
@@ -130,7 +130,7 @@ test('tasks should be set for each todoLists', () => {
     const task = {
         id: '3', title: 'new task', status: TaskStatuses.New, description: '',
         completed: false, priority: 0, startDate: '', deadline: '',
-        todoListId: 'todolistId2', order: 0, addedDate: '',
+        todoListId: 'todolistId2', order: 0, addedDate: '', entityStatus: "idle",
     }
 
     const newTasks = tasksReducer(tasks, setTasksAC('todolistId2', [task]))
@@ -141,4 +141,13 @@ test('tasks should be set for each todoLists', () => {
     expect(newTasks['todolistId2'].length).toBe(3)
     expect(newTasks['todolistId2'][0].id).toBe('3')
     expect(newTasks['todolistId2'][0].title).toBe('new task')
+})
+test('task entityStatus should be changed', () => {
+
+    const newEntityStatus: appStatusType = 'success'
+
+    const newTasks = tasksReducer(tasks, setTaskEntityStatusAC('todolistId2', '1', newEntityStatus))
+
+    expect(newTasks['todolistId2'][0].entityStatus).toBe('success')
+    expect(newTasks['todolistId2'][1].entityStatus).toBe('idle')
 })

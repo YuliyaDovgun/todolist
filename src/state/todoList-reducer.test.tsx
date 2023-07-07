@@ -1,17 +1,15 @@
 import {v1} from "uuid";
-import {filterType} from "../App";
 import {
     addTodoListAC,
     changeStatusTodoListAC,
-    changeTitleTodoListAC,
+    changeTitleTodoListAC, filterType,
     removeTodolistAC, setTodoListEntityStatusAC,
-    setTodoListsAC,
-    todolistInitStateType,
+    setTodoListsAC, todolistDomainType,
     todoListReducer
 } from "./todoList-reducer";
 import {appStatusType} from "./app-reducer";
 
-let todolists: Array<todolistInitStateType>
+let todolists: Array<todolistDomainType>
 
 const todolistId1 = v1()
 const todolistId2 = v1()
