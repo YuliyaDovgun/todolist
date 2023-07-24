@@ -3,11 +3,13 @@ import './App.css';
 import {AppBar, Container, IconButton, LinearProgress, Menu, MenuItem, Toolbar, Typography} from '@mui/material';
 import {AccountCircle} from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
-import {TodoListsWithRedux} from "./TodoLists/TodoListsWithRedux";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {appStatusType} from "./state/app-reducer";
 import ErrorSnackbar from "./common/SnackBar/ErrorSnackbar";
+import {Login} from "./Login/Login";
+import {Navigate, Route, Routes} from 'react-router-dom';
+import {TodoListsWithRedux} from "./TodoLists/TodoListsWithRedux";
 
 function App() {
 
@@ -80,7 +82,12 @@ function App() {
                 </Toolbar>
                 {status === 'loading' && <LinearProgress color="secondary"/>}
             </AppBar>
-            <TodoListsWithRedux/>
+            <Routes>
+                <Route path={'/'} element={<TodoListsWithRedux/>}/>
+                <Route path={'/login'} element={<Login/>}/>
+                <Route path={'/404'} element={'Not found'}/>
+                <Route path={'*'} element={<Navigate to={'404'}/>}/>
+            </Routes>
         </Container>
     );
 }
