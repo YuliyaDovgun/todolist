@@ -1,4 +1,4 @@
-import React, {ChangeEvent, MouseEvent, useState} from 'react';
+import React, {ChangeEvent, MouseEvent, useEffect, useState} from 'react';
 import './App.css';
 import {AppBar, Container, IconButton, LinearProgress, Menu, MenuItem, Toolbar, Typography} from '@mui/material';
 import {AccountCircle} from '@mui/icons-material';
@@ -10,8 +10,16 @@ import ErrorSnackbar from "./common/SnackBar/ErrorSnackbar";
 import {Login} from "./Login/Login";
 import {Navigate, Route, Routes} from 'react-router-dom';
 import {TodoListsWithRedux} from "./TodoLists/TodoListsWithRedux";
+import {fetchIsAuthTC} from "./state/auth-reducer";
+import {useAppDispatch} from "./hooks/useAppDispatch";
 
 function App() {
+
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(fetchIsAuthTC())
+    }, [])
 
     const status = useSelector<AppRootStateType, appStatusType>(state => state.app.status)
 
